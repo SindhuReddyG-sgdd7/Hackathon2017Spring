@@ -1,4 +1,5 @@
 // Ionic Starter App
+
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -7,30 +8,30 @@
 var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 app.run(function($ionicPlatform) {
-    $ionicPlatform.ready(function() {
-        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-        // for form inputs)
-        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-            cordova.plugins.Keyboard.disableScroll(true);
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
 
-        }
-        if (window.StatusBar) {
-            // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
-        }
-    });
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+  });
 })
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
-    // Ionic uses AngularUI Router which uses the concept of states
-    // Learn more here: https://github.com/angular-ui/ui-router
-    // Set up the various states which the app can be in.
-    // Each state's controller can be found in controllers.js
-    $stateProvider
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+  $stateProvider
 
-        .state('Login', {
+  .state('Login', {
             url: '/login',
             templateUrl: 'templates/Login.html',
             controller: 'LoginController'
@@ -41,54 +42,54 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'templates/Registration.html',
             controller: 'RegistrationController'
         })
+  
+  // setup an abstract state for the tabs directive
+    .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html'
+  })
 
-        // setup an abstract state for the tabs directive
-        .state('tab', {
-            url: '/tab',
-            abstract: true,
-            templateUrl: 'templates/tabs.html'
-        })
+  // Each tab has its own nav history stack:
 
-        // Each tab has its own nav history stack:
+  .state('tab.dash', {
+    url: '/dash',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/tab-dash.html',
+        controller: 'AnalysisController'
+      }
+    }
+  })
 
-        .state('tab.dash', {
-            url: '/dash',
-            views: {
-                'tab-dash': {
-                    templateUrl: 'templates/tab-dash.html',
-                    controller: 'AnalysisController'
-                }
-            }
-        })
+  .state('tab.chats', {
+      url: '/chats',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/tab-chats.html',
+          controller: 'ChatsCtrl'
+        }
+      }
+    })
+    .state('tab.chat-detail', {
+      url: '/chats/:chatId',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/chat-detail.html',
+          controller: 'ChatDetailCtrl'
+        }
+      }
+    })
 
-        .state('tab.chats', {
-            url: '/chats',
-            views: {
-                'tab-chats': {
-                    templateUrl: 'templates/tab-chats.html',
-                    controller: 'ChatsCtrl'
-                }
-            }
-        })
-        .state('tab.chat-detail', {
-            url: '/chats/:chatId',
-            views: {
-                'tab-chats': {
-                    templateUrl: 'templates/chat-detail.html',
-                    controller: 'ChatDetailCtrl'
-                }
-            }
-        })
-
-        .state('tab.account', {
-            url: '/account',
-            views: {
-                'tab-account': {
-                    templateUrl: 'templates/tab-account.html',
-                    controller: 'AccountCtrl'
-                }
-            }
-        });
+  .state('tab.account', {
+    url: '/account',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-account.html',
+        controller: 'AccountCtrl'
+      }
+    }
+  });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
@@ -134,6 +135,8 @@ app.controller("LoginController", function($scope, $http, $state, $httpParamSeri
                         alert("Login Succesful!");
                         
                         localStorage.setItem("UserName", username);
+                        document.getElementById("username").innerHTML = "";
+                        document.getElementById("password").innerHTML = "";
                         console.log("Success");
                         $state.go("tab.dash");
                         
@@ -195,7 +198,30 @@ app.controller("RegistrationController", function($scope,$http, $state, $httpPar
 });
 
 app.controller("AnalysisController", function($scope, $http,$state) {
-    
+  
+    $scope.getUsers = function(){
+    username = localStorage.getItem("UserName");
+   
+        console.log("jysw");
+        $scope.reci= [];
+   $http({
+               type: "GET",
+               url: 'https://api.mlab.com/api/1/databases/appointdb/collections/users?apiKey=EGAP5ndZR-TtwcytcnEZBQ-NH6PVDoiI',
+
+               contentType: "application/json"
+           })
+           .success(function(data) {
+       
+       for(i=0;i<data.length;i++){
+           if(data[i].username != username)
+           $scope.reci.push(data[i].username);
+            
+       }
+     console.log($scope.reci);
+        
+    })
+  
+    }
     
     $scope.analyzetext  = function(){
         
@@ -224,7 +250,7 @@ $.ajax(settings).done(function (response) {
     console.log($scope.arr[0]);
     console.log($scope.arr[1]);
   textmessage = replaceAll(textmessage,mapObj);
-   
+   document.getElementById("AnalyzedText").innerHTML = "<b>Analysed text: </b>" + textmessage;
    
    function replaceAll(str,mapObj){
    var re = new RegExp(Object.keys(mapObj).join("|"),"gi");
@@ -259,7 +285,7 @@ $.ajax(settings).done(function (response) {
    mapObj={}; 
    for(i=0;i<response.entities.length;i++){
      console.log(response.entities[i].text);
-           mapObj[response.entities[i].text] = "<a href=\'#/tab/chats\'>" +response.entities[i].text +"</a>";
+           mapObj[response.entities[i].text] = "<a href=\' \'>" +response.entities[i].text +"</a>";
           $scope.arr.push(response.entities[i].text);
      }
    console.log(mapObj);
@@ -284,6 +310,7 @@ var myVar = setTimeout(myTimer, 1400);
 function myTimer() {
    
   recipient = document.getElementById("recipient").value;
+    recipient = recipient.substring(7,recipient.length);
   console.log(recipient);
   username = localStorage.getItem("UserName");
   $scope.messages = [];
@@ -319,10 +346,7 @@ console.log(textmessage);
      document.getElementById("recipient").value = "";
                })
             .error(function() {
-                                
-
-                          })
-                        
+                          })                        
                     } else if (username == data[0].username && recipient == data[0].recipient) {
                         $scope.messages = data[0].textmessage;
                         $scope.messages.push(textsent);
@@ -331,18 +355,12 @@ console.log(textmessage);
                         $scope.newmessage = $scope.messages;
                         $scope.newarray = $scope.newarr;
                         console.log($scope.newmessage);
-                        
-                        
                    $http({
-                      method: 'DELETE' ,   
-                url: 'https://api.mongolab.com/api/1/databases/appointdb/collections/chats/'+data[0]._id.$oid+'?apiKey=EGAP5ndZR-TtwcytcnEZBQ-NH6PVDoiI',
-
-                     }).success(function (data) {
-                      
-                     })                  
-                                          
-                        
-                        $http({
+                       method: 'DELETE' ,   
+                       url: 'https://api.mongolab.com/api/1/databases/appointdb/collections/chats/'+data[0]._id.$oid+'?apiKey=EGAP5ndZR-TtwcytcnEZBQ-NH6PVDoiI',
+                   }).success(function (data) {
+                   })   
+                   $http({
            method: 'POST',
            url : 'https://api.mlab.com/api/1/databases/appointdb/collections/chats?apiKey=EGAP5ndZR-TtwcytcnEZBQ-NH6PVDoiI',
            data: JSON.stringify({
@@ -355,35 +373,20 @@ console.log(textmessage);
                     }).success(function() {
                             alert("Successfully Sent!");
                             document.getElementById("textentered").value = "";
-     document.getElementById("recipient").value = "";
-               })
-            .error(function() {
-                              
-                          })
-                        
-    
-                        
-                        }
-                    else {
-                                    
-                       
+                            document.getElementById("recipient").value = "";
+                        })
+                            .error(function() {
+                        })
                     }
-                })
+            else { }
+        })
         .error(function() {
             alert("error");
             consol.log("error");
             $state.go("Login");
         })
-  
-  
-
-        
     }
   }
-    
-    $scope.gochat = function(){
-        $state.go('tab.chats');
-    }
     
 });
 

@@ -7,25 +7,25 @@
 </label>
       <br>
       
-       <label class="item item-input"  >
+     <label class = "item item-input item-select">
   <span class="input-label">Enter Recipient</span>
-<input type="text" id="recipient">
+           <select ng-model="item" 
+         ng-options="item as item for item in reci" value="item" id="recipient" ng-click="getUsers()">
+ </select>
            
 </label>
-     
-
       <br>
+   
+      
      <button class="button button-balanced" ng-click="sendtext()">
   Send Message
-</button>
-      
-     <button class="button button-balanced" ng-click="gochat()">
-  Go to Chats
 </button>
      
       <button class="button button-balanced" ng-click="analyzetext()">
   Analyze
 </button>
+      <br><br>
+      <label id="AnalyzedText"></label>
       
   </ion-content>
 </ion-view>

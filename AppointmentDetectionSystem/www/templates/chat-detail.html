@@ -8,11 +8,12 @@
   <ion-content class="padding">
     <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
           
-      <div class="card" ng-repeat="chat in chat.lastText track by $index" >
+      <div class="card" ng-repeat="text in chat.lastText track by $index"  ng-value="{{$index}}" ng-click="getDetected($index)">
           <div class="item item-divider" style="min-height: 4px; padding-top: 0px; background-color: #33cc33;"></div>
-          <div class="item item-text-wrap" ng-bind-html="chat">
-              {{ chat }} 
+          <div class="item item-text-wrap" ng-bind-html="text" >
+              {{ text }} 
           </div>
+           
       </div>
     
   </ion-content>

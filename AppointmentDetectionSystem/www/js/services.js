@@ -100,7 +100,7 @@ angular.module('starter.services', [])
         var a = [];
         for(var i=0; i<datetime[$index].length; i++)
             {
-                a = a + datetime[$index][i] +"\n";
+                a = a + datetime[$index][i] +", ";
                 console.log(a);
             }
      var alertPopup = $ionicPopup.alert({

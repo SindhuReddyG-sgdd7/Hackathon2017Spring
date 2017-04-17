@@ -1,9 +1,32 @@
 <ion-view view-title="Account">
   <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
+    <div class="transbox">
+            <div class="list list-inset">
+                <!--<label class="item item-input">
+                    <input ng-model="firstname" type="text" placeholder="First Name" />
+                </label>
+                <label class="item item-input">
+                    <input ng-model="lastname" type="text" placeholder="Last Name" />
+                </label>-->
+                <label class="item item-input"><label><b>First Name : </b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label id="firstname"></label> </label>  <br>     
+                <label class="item item-input"><label><b>Last Name : </b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label id="lastname"></label></label> <br>       
+                <label class="item item-input"><label><b>User Name : </b></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label id="username"></label> </label>    <br>   
+                <label class="item item-input"><label><b>Password : </b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label id="password">********</label> </label> <br>      
+                <label class="item item-input"><label><b>Mobile number : </b></label>&nbsp;<label id="mobilenumber"></label>  </label>      
+        </div>
+        <center>
+            <div class="list">
+                <button class="button button-positive">   Edit Details</button><br/><br/>
+                <button class="button button-positive" ng-click="logout()">   Logout</button>
+                <br><br>
+                
+                
+            </div>
+            </center>
+        </div>
   </ion-content>
 </ion-view>
