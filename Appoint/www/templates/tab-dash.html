@@ -1,0 +1,31 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding" ng-app="AnalysisController">
+   
+      <label class="item item-input"  >
+  <span class="input-label">Enter Text</span>
+  <input type="text" id="textentered">
+</label>
+      <br>
+      
+       <label class="item item-input"  >
+  <span class="input-label">Enter Recipient</span>
+<input type="text" id="recipient">
+           
+</label>
+     
+
+      <br>
+     <button class="button button-balanced" ng-click="sendtext()">
+  Send Message
+</button>
+      
+     <button class="button button-balanced" ng-click="gochat()">
+  Go to Chats
+</button>
+     
+      <button class="button button-balanced" ng-click="analyzetext()">
+  Analyze
+</button>
+      
+  </ion-content>
+</ion-view>
